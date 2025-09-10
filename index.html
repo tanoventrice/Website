@@ -1,68 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>XRP, XLM & SOL Tracker</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Watch: XRP, XLM, SOL</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <header>
-    <h1>XRP, XLM & SOL Tracker</h1>
     <nav>
-      <a href="#prices">Prices</a>
-      <a href="#learn">Learn</a>
-      <a href="#insights">Insights</a>
-      <a href="#contact">Contact</a>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
     </nav>
-  </header>
-
-  <section id="prices">
-    <h2>Live Prices</h2>
-
-    <!-- ✅ CoinGecko Live Price Marquee Widget -->
-    <div id="coingecko-coin-price-marquee"
-         data-coins="ripple,stellar,solana"
-         data-currency="usd"
-         data-background-color="#ffffff"
-         data-font-color="#111111"
-         data-ticker-interval="60">
-    </div>
-    <script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
-  </section>
-
-  <section id="learn">
-    <h2>Learn</h2>
-    <div class="learn-row">
-      <div class="card">
-        <h3>What is XRP?</h3>
-        <p>XRP is a digital asset developed by Ripple Labs for fast, low-cost international payments. It acts as a bridge currency in cross-border transfers and is optimized for institutional use.</p>
-      </div>
-      <div class="card">
-        <h3>What is XLM?</h3>
-        <p>Stellar (XLM) is an open-source network that facilitates low-cost, cross-border payments. It's designed for global financial access and was created by the Stellar Development Foundation.</p>
-      </div>
-      <div class="card">
-        <h3>What is SOL?</h3>
-        <p>Solana (SOL) is a fast, scalable blockchain built for decentralized apps, NFTs, and DeFi. Known for low fees and high throughput, Solana supports thousands of transactions per second.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="insights">
-    <h2>Weekly Insights</h2>
-    <div class="card">
-      <h3>Sample Insight</h3>
-      <p><em>September 9, 2025</em></p>
-      <p>This is your placeholder to post weekly updates covering trends, price movements, and key headlines for XRP, XLM, and SOL. Update it every week to keep things fresh.</p>
-    </div>
-  </section>
-
-  <footer id="contact">
-    <p>Contact: <a href="mailto:you@example.com">you@example.com</a></p>
-    <p>© 2025 – For informational purposes only. This is not financial advice.</p>
-  </footer>
-
+    <main>
+        <h1>Welcome to Crypto Watch</h1>
+        <p>Follow live prices and news for XRP, XLM, and SOL.</p>
+        <section id="live-prices">
+            <h2>Live Prices</h2>
+            <div id="prices-container">
+                <!-- Prices will be loaded here by script.js -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Crypto Watch. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
