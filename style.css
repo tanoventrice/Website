@@ -1,0 +1,114 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background: #f4f6fb;
+    color: #222;
+}
+
+nav {
+    background: #1a3153;
+    padding: 0.5em 0;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #10b6e6;
+}
+
+main {
+    max-width: 800px;
+    margin: 2em auto;
+    background: #fff;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 0 rgba(42,65,112,0.03);
+}
+
+h1, h2 {
+    color: #1a3153;
+}
+
+#prices-container {
+    display: flex;
+    gap: 2em;
+    margin-bottom: 1.5em;
+}
+
+.price-card {
+    background: #f1f8fe;
+    border: 1px solid #e0e7ef;
+    border-radius: 8px;
+    padding: 1em 2em;
+    text-align: center;
+    min-width: 150px;
+}
+
+.price-title {
+    font-weight: bold;
+    color: #10b6e6;
+}
+
+.price-value {
+    font-size: 1.5em;
+    margin: 0.3em 0;
+}
+
+#news-list {
+    padding: 0;
+    list-style: none;
+}
+
+#news-list li {
+    margin-bottom: 1em;
+    border-bottom: 1px dotted #cce6ff;
+    padding-bottom: 0.5em;
+}
+
+footer {
+    text-align: center;
+    padding: 1em 0;
+    background: #1a3153;
+    color: #fff;
+    margin-top: 2em;
+    border-radius: 0 0 10px 10px;
+}
+
+form label {
+    display: block;
+    margin: 1em 0 0.4em 0;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 0.7em;
+    border: 1px solid #bcdffb;
+    border-radius: 5px;
+}
+
+form button {
+    background: #10b6e6;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+form button:hover {
+    background: #1a3153;
+}
