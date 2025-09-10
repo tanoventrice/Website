@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crypto Watch: XRP / XLM / SOL Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Crypto Watch: Top 30 Coins Tracker</title>
   <link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -29,7 +28,13 @@
       transition: color 0.2s;
     }
     nav a:hover { color: #10b6e6; }
-    .dashboard { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2em; margin: 2em auto; max-width: 1200px;}
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2em;
+      margin: 2em auto;
+      max-width: 1500px;
+    }
     .coin-card {
       background: #fff;
       border-radius: 11px;
@@ -37,15 +42,16 @@
       padding: 1.7em 1.3em;
       text-align: center;
       position: relative;
+      min-width: 0;
     }
-    .coin-logo { width: 48px; height: 48px; margin-bottom: 0.5em; }
-    .coin-symbol { font-size: 1.4em; font-weight: bold; }
-    .coin-name { color: #7a859e; margin-bottom: 0.7em; }
-    .coin-price { font-size: 1.6em; margin-bottom: 0.4em; }
-    .coin-change { font-size: 1.1em; }
+    .coin-logo { width: 38px; height: 38px; margin-bottom: 0.5em; }
+    .coin-symbol { font-size: 1.1em; font-weight: bold; }
+    .coin-name { color: #7a859e; margin-bottom: 0.5em; font-size: 0.97em;}
+    .coin-price { font-size: 1.2em; margin-bottom: 0.3em; }
+    .coin-change { font-size: 1em; }
     .change-up { color: #16c784; }
     .change-down { color: #ea3943; }
-    .chart-container { width: 100%; min-height: 220px; margin-top: 1.3em;}
+    .chart-container { width: 100%; min-height: 90px; margin-top: 1em;}
     footer { text-align: center; margin: 3em 0 1em 0; color: #888;}
     @media (max-width: 900px) {
       .dashboard { grid-template-columns: 1fr; gap: 2em;}
@@ -73,14 +79,8 @@
     &copy; 2025 Crypto Watch. All rights reserved.
   </footer>
   <script>
-    const coins = [
-      { id: 'ripple', symbol: 'XRP', name: 'XRP', logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png' },
-      { id: 'stellar', symbol: 'XLM', name: 'Stellar', logo: 'https://assets.coingecko.com/coins/images/100/small/Stellar_symbol_black_RGB.png' },
-      { id: 'solana', symbol: 'SOL', name: 'Solana', logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png' }
-    ];
-
     async function fetchMarketData() {
-      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ripple,stellar,solana&order=market_cap_desc&per_page=3&page=1&sparkline=true&price_change_percentage=24h';
+      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=true&price_change_percentage=24h';
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -98,10 +98,10 @@
         dashboard.innerHTML += `
           <div class="coin-card">
             <img src="${coin.image}" alt="${coin.name}" class="coin-logo"/>
-            <div class="coin-symbol">${coin.symbol}</div>
+            <div class="coin-symbol">${coin.symbol.toUpperCase()}</div>
             <div class="coin-name">${coin.name}</div>
             <div class="coin-price">$${coin.current_price.toLocaleString()}</div>
-            <div class="coin-change ${changeClass}">${coin.price_change_percentage_24h.toFixed(2)}%</div>
+            <div class="coin-change ${changeClass}">${coin.price_change_percentage_24h ? coin.price_change_percentage_24h.toFixed(2) : '0.00'}%</div>
             <div class="chart-container">
               <canvas id="chart-${idx}"></canvas>
             </div>
