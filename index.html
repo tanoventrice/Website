@@ -1,158 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XRP, XLM & Solana Market Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .market-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 2px 18px 0 rgba(42,65,112,0.08);
-            margin-top: 2em;
-        }
-        .market-table th, .market-table td {
-            padding: 1.1em 1em;
-            text-align: left;
-        }
-        .market-table thead {
-            background: #f8fafc;
-            color: #7a859e;
-            font-size: 1em;
-            border-bottom: 2px solid #e3e6eb;
-        }
-        .market-table tbody tr {
-            border-bottom: 1px solid #e3e6eb;
-        }
-        .market-table tbody tr:hover {
-            background: #f4f6fb;
-        }
-        .coin-cell {
-            display: flex;
-            align-items: center;
-            gap: 1em;
-        }
-        .coin-logo {
-            width: 40px;
-            height: 40px;
-        }
-        .coin-symbol {
-            font-weight: bold;
-            color: #253858;
-        }
-        .price {
-            font-family: 'Roboto Mono', 'Menlo', monospace;
-            font-size: 1.15em;
-            color: #1a3153;
-        }
-        .change-up {
-            color: #16c784;
-            font-weight: bold;
-        }
-        .change-down {
-            color: #ea3943;
-            font-weight: bold;
-        }
-        .market-cap {
-            font-family: monospace;
-            color: #7a859e;
-        }
-        @media (max-width: 650px) {
-            .market-table th, .market-table td { padding: 0.7em 0.5em; }
-            .coin-logo { width: 28px; height: 28px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crypto Watch: XRP / XLM / SOL Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f6f9fc;
+      margin: 0;
+      color: #1a2233;
+    }
+    header {
+      background: #111827;
+      color: #fff;
+      padding: 1em 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 2em; padding-right: 2em;
+    }
+    .logo { font-size: 1.7em; letter-spacing: 2px; font-weight: bold; }
+    nav a {
+      color: #fff; text-decoration: none; margin: 0 1em; font-weight: 500; 
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #10b6e6; }
+    .dashboard { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2em; margin: 2em auto; max-width: 1200px;}
+    .coin-card {
+      background: #fff;
+      border-radius: 11px;
+      box-shadow: 0 2px 16px 0 rgba(42,65,112,0.07);
+      padding: 1.7em 1.3em;
+      text-align: center;
+      position: relative;
+    }
+    .coin-logo { width: 48px; height: 48px; margin-bottom: 0.5em; }
+    .coin-symbol { font-size: 1.4em; font-weight: bold; }
+    .coin-name { color: #7a859e; margin-bottom: 0.7em; }
+    .coin-price { font-size: 1.6em; margin-bottom: 0.4em; }
+    .coin-change { font-size: 1.1em; }
+    .change-up { color: #16c784; }
+    .change-down { color: #ea3943; }
+    .chart-container { width: 100%; min-height: 220px; margin-top: 1.3em;}
+    footer { text-align: center; margin: 3em 0 1em 0; color: #888;}
+    @media (max-width: 900px) {
+      .dashboard { grid-template-columns: 1fr; gap: 2em;}
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="logo">Crypto Watch</div>
     <nav>
-        <ul>
-            <li><a href="index.html" class="active">Market</a></li>
-            <li><a href="news.html">News</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
+      <a href="index.html">Home</a>
+      <a href="prices.html">Prices</a>
+      <a href="news.html">News</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
-    <main>
-        <h1 style="text-align:center;margin-top:1em;">XRP, XLM & Solana Live Market</h1>
-        <table class="market-table" id="market-table">
-            <thead>
-                <tr>
-                    <th>Coin</th>
-                    <th>Price</th>
-                    <th>24h Change</th>
-                    <th>Market Cap</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- JS fills this -->
-            </tbody>
-        </table>
-    </main>
-    <footer>
-        <p>&copy; 2025 Crypto Watch. All rights reserved.</p>
-    </footer>
-    <script>
-        const coins = [
-            {
-                id: 'ripple',
-                symbol: 'XRP',
-                name: 'XRP',
-                logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png',
-            },
-            {
-                id: 'stellar',
-                symbol: 'XLM',
-                name: 'Stellar',
-                logo: 'https://assets.coingecko.com/coins/images/100/small/Stellar_symbol_black_RGB.png',
-            },
-            {
-                id: 'solana',
-                symbol: 'SOL',
-                name: 'Solana',
-                logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png',
-            },
-        ];
+  </header>
+  <main>
+    <section class="dashboard" id="dashboard">
+      <!-- JS fills coin cards here -->
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Crypto Watch. All rights reserved.
+  </footer>
+  <script>
+    const coins = [
+      { id: 'ripple', symbol: 'XRP', name: 'XRP', logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png' },
+      { id: 'stellar', symbol: 'XLM', name: 'Stellar', logo: 'https://assets.coingecko.com/coins/images/100/small/Stellar_symbol_black_RGB.png' },
+      { id: 'solana', symbol: 'SOL', name: 'Solana', logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png' }
+    ];
 
-        async function fetchMarketData() {
-            const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ripple,stellar,solana&order=market_cap_desc&per_page=3&page=1&sparkline=false&price_change_percentage=24h';
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-                renderTable(data);
-            } catch (e) {
-                document.querySelector("#market-table tbody").innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+    async function fetchMarketData() {
+      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ripple,stellar,solana&order=market_cap_desc&per_page=3&page=1&sparkline=true&price_change_percentage=24h';
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        renderDashboard(data);
+      } catch (e) {
+        document.getElementById('dashboard').innerHTML = '<div>Error loading data</div>';
+      }
+    }
+
+    function renderDashboard(data) {
+      const dashboard = document.getElementById('dashboard');
+      dashboard.innerHTML = '';
+      data.forEach((coin, idx) => {
+        const changeClass = coin.price_change_percentage_24h >= 0 ? 'change-up' : 'change-down';
+        dashboard.innerHTML += `
+          <div class="coin-card">
+            <img src="${coin.image}" alt="${coin.name}" class="coin-logo"/>
+            <div class="coin-symbol">${coin.symbol}</div>
+            <div class="coin-name">${coin.name}</div>
+            <div class="coin-price">$${coin.current_price.toLocaleString()}</div>
+            <div class="coin-change ${changeClass}">${coin.price_change_percentage_24h.toFixed(2)}%</div>
+            <div class="chart-container">
+              <canvas id="chart-${idx}"></canvas>
+            </div>
+          </div>
+        `;
+      });
+      // Draw charts
+      data.forEach((coin, idx) => {
+        if (coin.sparkline_in_7d && coin.sparkline_in_7d.price) {
+          new Chart(document.getElementById('chart-' + idx), {
+            type: 'line',
+            data: {
+              labels: coin.sparkline_in_7d.price.map((_, i) => i),
+              datasets: [{
+                data: coin.sparkline_in_7d.price,
+                borderColor: "#10b6e6",
+                backgroundColor: "rgba(16,182,230,0.09)",
+                pointRadius: 0,
+                fill: true,
+                tension: 0.18,
+              }],
+            },
+            options: {
+              plugins: { legend: { display: false } },
+              scales: {
+                x: { display: false },
+                y: { display: false }
+              },
+              elements: {
+                line: { borderWidth: 2 },
+              },
+              responsive: true,
+              maintainAspectRatio: false,
             }
+          });
         }
+      });
+    }
 
-        function renderTable(data) {
-            const tbody = document.querySelector("#market-table tbody");
-            tbody.innerHTML = '';
-            coins.forEach(coin => {
-                const d = data.find(item => item.id === coin.id);
-                if (!d) return;
-                const changeClass = d.price_change_percentage_24h >= 0 ? 'change-up' : 'change-down';
-                tbody.innerHTML += `
-                <tr>
-                    <td>
-                        <div class="coin-cell">
-                            <img src="${coin.logo}" alt="${coin.name}" class="coin-logo">
-                            <span class="coin-symbol">${coin.symbol}</span>
-                        </div>
-                    </td>
-                    <td class="price">$${d.current_price.toLocaleString()}</td>
-                    <td class="${changeClass}">${d.price_change_percentage_24h.toFixed(2)}%</td>
-                    <td class="market-cap">$${d.market_cap.toLocaleString()}</td>
-                </tr>
-                `;
-            });
-        }
-
-        fetchMarketData();
-        setInterval(fetchMarketData, 60000); // update every minute
-    </script>
+    fetchMarketData();
+    setInterval(fetchMarketData, 60000); // update every minute
+  </script>
 </body>
 </html>
