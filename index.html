@@ -3,31 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Watch: XRP, XLM, SOL</title>
+    <title>XRP, XLM & Solana Market Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 18px 0 rgba(42,65,112,0.08);
+            margin-top: 2em;
+        }
+        .market-table th, .market-table td {
+            padding: 1.1em 1em;
+            text-align: left;
+        }
+        .market-table thead {
+            background: #f8fafc;
+            color: #7a859e;
+            font-size: 1em;
+            border-bottom: 2px solid #e3e6eb;
+        }
+        .market-table tbody tr {
+            border-bottom: 1px solid #e3e6eb;
+        }
+        .market-table tbody tr:hover {
+            background: #f4f6fb;
+        }
+        .coin-cell {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+        .coin-logo {
+            width: 40px;
+            height: 40px;
+        }
+        .coin-symbol {
+            font-weight: bold;
+            color: #253858;
+        }
+        .price {
+            font-family: 'Roboto Mono', 'Menlo', monospace;
+            font-size: 1.15em;
+            color: #1a3153;
+        }
+        .change-up {
+            color: #16c784;
+            font-weight: bold;
+        }
+        .change-down {
+            color: #ea3943;
+            font-weight: bold;
+        }
+        .market-cap {
+            font-family: monospace;
+            color: #7a859e;
+        }
+        @media (max-width: 650px) {
+            .market-table th, .market-table td { padding: 0.7em 0.5em; }
+            .coin-logo { width: 28px; height: 28px; }
+        }
+    </style>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="index.html" class="active">Market</a></li>
             <li><a href="news.html">News</a></li>
+            <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
     <main>
-        <h1>Welcome to Crypto Watch</h1>
-        <p>Follow live prices and news for XRP, XLM, and SOL.</p>
-        <section id="live-prices">
-            <h2>Live Prices</h2>
-            <div id="prices-container">
-                <!-- Prices will be loaded here by script.js -->
-            </div>
-        </section>
+        <h1 style="text-align:center;margin-top:1em;">XRP, XLM & Solana Live Market</h1>
+        <table class="market-table" id="market-table">
+            <thead>
+                <tr>
+                    <th>Coin</th>
+                    <th>Price</th>
+                    <th>24h Change</th>
+                    <th>Market Cap</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- JS fills this -->
+            </tbody>
+        </table>
     </main>
     <footer>
         <p>&copy; 2025 Crypto Watch. All rights reserved.</p>
     </footer>
-    <script src="script.js"></script>
+    <script>
+        const coins = [
+            {
+                id: 'ripple',
+                symbol: 'XRP',
+                name: 'XRP',
+                logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png',
+            },
+            {
+                id: 'stellar',
+                symbol: 'XLM',
+                name: 'Stellar',
+                logo: 'https://assets.coingecko.com/coins/images/100/small/Stellar_symbol_black_RGB.png',
+            },
+            {
+                id: 'solana',
+                symbol: 'SOL',
+                name: 'Solana',
+                logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png',
+            },
+        ];
+
+        async function fetchMarketData() {
+            const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ripple,stellar,solana&order=market_cap_desc&per_page=3&page=1&sparkline=false&price_change_percentage=24h';
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                renderTable(data);
+            } catch (e) {
+                document.querySelector("#market-table tbody").innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+            }
+        }
+
+        function renderTable(data) {
+            const tbody = document.querySelector("#market-table tbody");
+            tbody.innerHTML = '';
+            coins.forEach(coin => {
+                const d = data.find(item => item.id === coin.id);
+                if (!d) return;
+                const changeClass = d.price_change_percentage_24h >= 0 ? 'change-up' : 'change-down';
+                tbody.innerHTML += `
+                <tr>
+                    <td>
+                        <div class="coin-cell">
+                            <img src="${coin.logo}" alt="${coin.name}" class="coin-logo">
+                            <span class="coin-symbol">${coin.symbol}</span>
+                        </div>
+                    </td>
+                    <td class="price">$${d.current_price.toLocaleString()}</td>
+                    <td class="${changeClass}">${d.price_change_percentage_24h.toFixed(2)}%</td>
+                    <td class="market-cap">$${d.market_cap.toLocaleString()}</td>
+                </tr>
+                `;
+            });
+        }
+
+        fetchMarketData();
+        setInterval(fetchMarketData, 60000); // update every minute
+    </script>
 </body>
 </html>
