@@ -1,0 +1,92 @@
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f6f9fc;
+  margin: 0;
+  color: #1a2233;
+}
+.main-header {
+  background: #111827;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7em 2em;
+  position: relative;
+}
+.brand {
+  display: flex;
+  align-items: center;
+}
+.brand-logo {
+  margin-right: 0.65em;
+  display: block;
+}
+.brand-name {
+  font-size: 1.6em;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.main-nav {
+  display: flex;
+  gap: 0.6em;
+}
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.45em 1.1em;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1.04em;
+  transition: background 0.18s, color 0.16s;
+  position: relative;
+}
+.nav-link:hover,
+.nav-link.active {
+  background: #10b6e6;
+  color: #fff !important;
+}
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2em;
+  cursor: pointer;
+  margin-left: 1em;
+}
+.main-footer {
+  text-align: center;
+  margin: 3em 0 1em 0;
+  color: #888;
+}
+/* Responsive menu */
+@media (max-width: 870px) {
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1em 1em;
+  }
+  .main-nav {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    display: none;
+    background: #1b2336;
+    border-radius: 9px;
+    margin-top: 0.7em;
+  }
+  .main-nav.show {
+    display: flex;
+  }
+  .nav-link {
+    padding: 1em 1em;
+    border-radius: 0;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-toggle {
+    display: block;
+    position: absolute;
+    right: 1.2em; top: 1.1em;
+  }
+}
